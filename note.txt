@@ -1,0 +1,13 @@
+III/ Connect to mongodb 
+    1) old connection way
+    when we require a module in java or php (oop), it will run the source code
+    2) new connection way
+    3) way to test how many connection
+    4) notify when server is connection overloading
+    5) should we disConnect() continuously
+    no need , because mongoose use a pool to manage database, automatically open and close connection when need
+    6) what is poolSize? why it important?
+    poolSize is a group of connection to database that we can reuse. If poolSize = 50 , mongo will check in whether poolSize has any connection, 
+    if yes , it will use the connection for a new request, otherwise mongoose will create a new connection
+    7) Connections > poolSizes 
+    If connections > poolSizes, mongoose will put these connection into a queue to wait the before connections
