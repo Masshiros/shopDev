@@ -11,3 +11,5 @@ III/ Connect to mongodb
     if yes , it will use the connection for a new request, otherwise mongoose will create a new connection
     7) Connections > poolSizes 
     If connections > poolSizes, mongoose will put these connection into a queue to wait the before connections
+
+IV/ File .env
