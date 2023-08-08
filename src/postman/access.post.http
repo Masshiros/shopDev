@@ -1,0 +1,3 @@
+### Signup 
+@url_dev=http://localhost:9879/v1/api
+POST {{url_dev}}/shop/signup

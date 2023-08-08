@@ -18,7 +18,7 @@ require("./dbs/init.mongodb");
 // checkOverLoad();
 // countConnect();
 // init router
-
+app.use("", require("./routes"));
 // handle error middleware
 
 module.exports = app;
