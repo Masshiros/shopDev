@@ -7,10 +7,11 @@ const RoleShop = require("../constants/role.constant");
 const keyTokenService = require("../services/keyToken.service");
 const { createTokenPair } = require("../auth/authUtils");
 const { getInfoData } = require("../utils");
+const { BadRequestError } = require("../core/error.response");
 
 class AccessService {
   static signUp = async ({ name, email, password }) => {
-    try {
+    // try {
       // step1: check email exist??
       const holderShop = await shopModel
         .findOne({
@@ -18,10 +19,7 @@ class AccessService {
         })
         .lean();
       if (holderShop) {
-        return {
-          code: "xxx",
-          message: "Shop already registered",
-        };
+        throw new BadRequestError("Error: Shop already exist");
       }
       // step2 : hash password
       const hashPassword = await bcrypt.hash(password, 10);
@@ -96,13 +94,13 @@ class AccessService {
         code: 200,
         metadata: null,
       };
-    } catch (error) {
-      return {
-        code: "xxx",
-        message: error.message,
-        status: "error",
-      };
-    }
+    // } catch (error) {
+    //   return {
+    //     code: "xxx",
+    //     message: error.message,
+    //     status: "error",
+    //   };
+    // }
   };
 }
 
