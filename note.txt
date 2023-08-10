@@ -13,3 +13,8 @@ III/ Connect to mongodb
     If connections > poolSizes, mongoose will put these connection into a queue to wait the before connections
 
 IV/ File .env
+
+V/ What is API key
+Api key is a random string in database, when client sign up out service, server will provide a unique apiKey to client. 
+apiKey include a lot of information (key,permission, version,status,...). We should save apiKey into a collection.
+apiKey can used for authorization.

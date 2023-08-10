@@ -2,6 +2,7 @@
 @url_dev=http://localhost:9879/v1/api
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
+x-api-key: f1aecbe0b919c38cb8627dfd4b488801dda6c1bc523ea451856f38f43ccc68108cca1b019731168bf7ac8e9ef0f68293c5d14729292dc5e1381780e01f6dac3f
 
 {
     "name": "Shop masshiro",
