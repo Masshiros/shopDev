@@ -11,5 +11,12 @@ const { asyncHandler } = require("../../middlewares/checkAuth");
  * BODY    :
  * ACCESS  : None
  */
-router.post("/shop/signup", asyncHandler( accessController.signUp));
+router.post("/shop/signup", asyncHandler(accessController.signUp));
+/**
+ * DESC    : Login
+ * METHOD  : POST
+ * BODY    : {name,email,refreshToken}
+ * ACCESS  : None
+ */
+router.post("/shop/login", asyncHandler(accessController.login));
 module.exports = router;
