@@ -3,7 +3,8 @@
 const express = require("express");
 const accessController = require("../../controllers/access.controller");
 const router = express.Router();
-const { asyncHandler } = require("../../middlewares/checkAuth");
+const asyncHandler = require("../../helpers/asyncHandler");
+const { authentication } = require("../../auth/authUtils");
 
 /**
  * DESC    : Sign up a user
@@ -19,4 +20,14 @@ router.post("/shop/signup", asyncHandler(accessController.signUp));
  * ACCESS  : None
  */
 router.post("/shop/login", asyncHandler(accessController.login));
+// authentication //
+router.use(authentication)
+////////////////////////
+/**
+ * DESC    : Logout
+ * METHOD  : POST
+ * BODY    : {name,email,refreshToken}
+ * ACCESS  : None
+ */
+router.post("/shop/logout", asyncHandler(accessController.logout));
 module.exports = router;

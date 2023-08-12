@@ -4,7 +4,7 @@ const shopModel = require("../models/shop.model");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const RoleShop = require("../constants/role.constant");
-const keyTokenService = require("../services/keyToken.service");
+const KeyTokenService = require("../services/keyToken.service");
 const { createTokenPair } = require("../auth/authUtils");
 const { getInfoData } = require("../utils");
 const { BadRequestError, AuthFailureError } = require("../core/error.response");
@@ -12,6 +12,10 @@ const { OK, CREATED } = require("../core/success.response");
 const { findByEmail } = require("./shop.service");
 
 class AccessService {
+  static logout = async ( keyStore ) => {
+    const delKey = await KeyTokenService.removeKeyById(keyStore._id);
+    return delKey;
+  };
   /**
    * step 1: check email
    * step 2: match password
@@ -40,7 +44,7 @@ class AccessService {
       publicKey,
       privateKey
     );
-    await keyTokenService.createKeyToken({
+    await KeyTokenService.createKeyToken({
       userId,
       publicKey,
       privateKey,
@@ -98,7 +102,7 @@ class AccessService {
 
       // save publicKey, privateKey into keyToken model
       console.log({ privateKey, publicKey });
-      const keyStore = await keyTokenService.createKeyToken({
+      const keyStore = await KeyTokenService.createKeyToken({
         userId: newShop._id,
         publicKey,
         // version 2 - easy level
