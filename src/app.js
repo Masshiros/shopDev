@@ -25,7 +25,7 @@ app.use("", require("./routes"));
 // 404
 app.use((req, res, next) => {
   const error = new Error("Not Found");
-  
+
   error.status = 404;
   next(error);
 });
@@ -35,6 +35,7 @@ app.use((error, req, res, next) => {
   return res.status(statusCode).json({
     status: "error",
     code: statusCode,
+    stack: error.stack,
     message: error.message || "Internal Server Error",
   });
 });

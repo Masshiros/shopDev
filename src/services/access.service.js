@@ -16,6 +16,44 @@ const { OK, CREATED } = require("../core/success.response");
 const { findByEmail } = require("./shop.service");
 
 class AccessService {
+  static handlerRefreshTokenV2 = async ({ refreshToken, user, keyStore }) => {
+    /**
+     * Step 1: Check this token used or not ?
+     * Step 2: If yes, decode who is this user and delete all tokens in keyTokenModel
+     * Step 3: If no, find that user and verify token
+     * Step 4: Check user , if yes, create new AT & RT
+     * Step 5: Set keyToken model and return
+     */
+    const { userId, email } = user;
+    if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+      await KeyTokenService.deleteKeyById(userId);
+      throw new ForbiddenError("Something wrong happened!! Please relogin");
+    }
+    if (keyStore.refreshToken !== refreshToken) {
+      if (!tokenHolder) throw new AuthFailureError(`Shop not registered`);
+    }
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) throw new AuthFailureError(`Shop not registered`);
+    // create new AT & RT
+    const tokens = await createTokenPair(
+      { userId, email },
+      keyStore.publicKey,
+      keyStore.privateKey
+    );
+    // update Token
+    await keyStore.updateOne({
+      $set: {
+        refreshToken: tokens.refreshToken,
+      },
+      $addToSet: {
+        refreshTokensUsed: refreshToken,
+      },
+    });
+    return {
+      user,
+      tokens,
+    };
+  };
   static handlerRefreshToken = async (refreshToken) => {
     /**
      * Step 1: Check this token used or not ?
