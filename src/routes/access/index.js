@@ -21,13 +21,24 @@ router.post("/shop/signup", asyncHandler(accessController.signUp));
  */
 router.post("/shop/login", asyncHandler(accessController.login));
 // authentication //
-router.use(authentication)
+router.use(authentication);
 ////////////////////////
+
 /**
  * DESC    : Logout
  * METHOD  : POST
  * BODY    : {name,email,refreshToken}
- * ACCESS  : None
+ * ACCESS  : LOGIN
  */
 router.post("/shop/logout", asyncHandler(accessController.logout));
+/**
+ * DESC    : Handle refresh_toen
+ * METHOD  : POST
+ * BODY    : {refreshToken}
+ * ACCESS  : LOGIN
+ */
+router.post(
+  "/shop/refresh-token",
+  asyncHandler(accessController.handleRefreshToken)
+);
 module.exports = router;

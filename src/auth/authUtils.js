@@ -30,7 +30,7 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
 };
 const authentication = asyncHandler(async (req, res, next) => {
   /**
-   * step 1: check userId missing
+   * step 1: check userId missing?
    * step 2: check keystore with userId
    * step 3: get accessToken
    * step 4: verify token
@@ -59,4 +59,7 @@ const authentication = asyncHandler(async (req, res, next) => {
     throw error;
   }
 });
-module.exports = { createTokenPair,authentication };
+const verifyJWT = async (token, keySecret) => {
+  return await JWT.verify(token, keySecret);
+};
+module.exports = { createTokenPair, authentication, verifyJWT };
