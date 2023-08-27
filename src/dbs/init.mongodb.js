@@ -13,10 +13,10 @@ class Database {
   }
   // connect
   connect(type = "mongodb") {
-    if (1 === 1) {
-      mongoose.set("debug", true);
-      mongoose.set("debug", { color: true });
-    }
+    // if (1 === 1) {
+    //   mongoose.set("debug", true);
+    //   mongoose.set("debug", { color: true });
+    // }
     mongoose
       .connect(connectString, { maxPoolSize: 50 })
       .then(() => console.log("Connected MongoDb Success PRO", countConnect()))
