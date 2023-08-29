@@ -33,7 +33,7 @@ const productSchema = new Schema(
       default: {},
     },
     isDraft: { type: Boolean, default: true, index: true, select: false },
-    isPublished: { type: Boolean, default: true, index: true, select: false },
+    isPublished: { type: Boolean, default: false, index: true, select: false },
   },
   {
     collection: COLLECTION_NAME,
@@ -51,6 +51,7 @@ const clothingSchema = new Schema(
     brand: { type: String, required: true },
     size: String,
     material: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: "Shop" },
   },
 
   {
@@ -64,6 +65,7 @@ const electronicSchema = new Schema(
     manufacturer: { type: String, required: true },
     model: String,
     color: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: "Shop" },
   },
   {
     collection: "Electronics",
@@ -76,6 +78,7 @@ const furnitureSchema = new Schema(
     brand: { type: String, required: true },
     size: String,
     material: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: "Shop" },
   },
   {
     collection: "Furnitures",

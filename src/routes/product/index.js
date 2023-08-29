@@ -16,4 +16,10 @@ router.use(authenticationV2);
  * ACCESS  : LOGIN
  */
 router.post("", asyncHandler(productController.createProduct));
+/**
+ * DESC    : Get All Draft Products
+ * METHOD  : GET
+ * ACCESS  : LOGIN
+ */
+router.get("/drafts/all", asyncHandler(productController.getAllDraftForShop));
 module.exports = router;
