@@ -14,6 +14,18 @@ class ProductController {
     }).send(res);
   };
   /**
+   * @des   Update product
+   */
+  updateProduct = async (req, res, next) => {
+    new SuccessResponse({
+      message: "Update Product Success",
+      metadata: await ProductService.updateProduct(req.body.product_type,req.params.productId,{
+        ...req.body,
+        product_shop: req.user.userId,
+      }),
+    }).send(res);
+  };
+  /**
    * @des   Publish a product by shop
    * @param {ObjectId} product_id
    * @param {ObjectId} product_shop
@@ -80,7 +92,27 @@ class ProductController {
   getListSearchProduct = async (req, res, next) => {
     new SuccessResponse({
       message: "Search Product Success",
-      metadata: await ProductService.searchProducts(req.params.keySearch),
+      metadata: await ProductService.searchProducts(req.params),
+    }).send(res);
+  };
+  /**
+   * @des   find all products
+   */
+  findAllProducts = async (req, res, next) => {
+    new SuccessResponse({
+      message: "Find All Product Success",
+      metadata: await ProductService.findAllProducts(req.query),
+    }).send(res);
+  };
+  /**
+   * @des   find one product
+   */
+  findProduct = async (req, res, next) => {
+    new SuccessResponse({
+      message: "Find Product Success",
+      metadata: await ProductService.findProduct({
+        product_id: req.params.product_id,
+      }),
     }).send(res);
   };
 }

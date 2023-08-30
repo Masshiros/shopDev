@@ -14,6 +14,18 @@ router.get(
   "/search/:keySearch",
   asyncHandler(productController.getListSearchProduct)
 );
+/**
+ * DESC    : Find All Product
+ * METHOD  : GET
+ * QUERY   : yes
+ */
+router.get("", asyncHandler(productController.findAllProducts));
+/**
+ * DESC    : Find One Product
+ * METHOD  : GET
+ * QUERY   : yes
+ */
+router.get("/:product_id", asyncHandler(productController.findProduct));
 //authentication//
 router.use(authenticationV2);
 //////////////////
@@ -24,6 +36,14 @@ router.use(authenticationV2);
  * ACCESS  : LOGIN
  */
 router.post("", asyncHandler(productController.createProduct));
+/**
+ * DESC    : Update product
+ * METHOD  : PATCH
+ * BODY    : {product_type,...)
+ * PARAM   : productId
+ * ACCESS  : LOGIN
+ */
+router.patch("/:productId", asyncHandler(productController.updateProduct));
 /**
  * DESC    : Publish a product
  * METHOD  : POST
