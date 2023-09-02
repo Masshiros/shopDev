@@ -15,25 +15,22 @@ const removeUndefinedObject = (obj) => {
       delete obj[key];
     }
   });
-  console.log(`[remove-undefined]`, obj);
+
   return obj;
 };
 const updateNestedObjectParser = (obj) => {
-  console.log(`[1]::`, obj);
   const final = {};
   Object.keys(obj).forEach((key) => {
-    console.log(`[3]`, key);
     if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
       const response = updateNestedObjectParser(obj[key]);
       Object.keys(response).forEach((a) => {
-        console.log(`[4]`, a);
         final[`${key}.${a}`] = response[a];
       });
     } else {
       final[key] = obj[key];
     }
   });
-  console.log(`[2]::`, final);
+
   return final;
 };
 /**
@@ -58,7 +55,7 @@ const updateNestedObjectParser = (obj) => {
  *         d: 1,
  *         e: 2,
  *        }
- * 
+ *
  * => {d:1,e:2}
  *
  */

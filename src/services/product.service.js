@@ -18,6 +18,7 @@ const {
   updateProductById,
 } = require("../models/repositories/product.repo");
 const { removeUndefinedObject, updateNestedObjectParser } = require("../utils");
+const { insertInventory } = require("../models/repositories/inventory.repo");
 // define Factory class to create product
 class ProductFactory {
   /**
@@ -120,7 +121,18 @@ class Product {
   }
   // create product
   async createProduct(productId) {
-    return await product.create({ ...this, _id: productId });
+    const newProduct = await product.create({ ...this, _id: productId });
+
+    if (newProduct) {
+      // add inventory stock
+
+      await insertInventory({
+        productId: newProduct._id,
+        shopId: newProduct.product_shop,
+        stock: newProduct.product_quantity,
+      });
+    }
+    return newProduct;
   }
   // update product
   async updateProduct(productId, bodyUpdate) {
@@ -160,7 +172,10 @@ class Clothing extends Product {
         model: clothing,
       });
     }
-    const updateProduct = await super.updateProduct(productId, updateNestedObjectParser(objectParams));
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objectParams)
+    );
     return updateProduct;
   }
 }
@@ -180,6 +195,29 @@ class Electronics extends Product {
     }
     return newProduct;
   }
+  async updateProduct(productId) {
+    /**
+     * 1. remove attr has null undefined
+     * 2. check update where
+     */
+
+    //1. remove attr has null undefined
+    const objectParams = removeUndefinedObject(this);
+    //2. check update where
+    if (objectParams.product_attributes) {
+      // update child
+      await updateProductById({
+        productId,
+        bodyUpdate: updateNestedObjectParser(objectParams.product_attributes),
+        model: electronic,
+      });
+    }
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objectParams)
+    );
+    return updateProduct;
+  }
 }
 // define sub-class for different product types Furniture
 class Furniture extends Product {
@@ -196,6 +234,29 @@ class Furniture extends Product {
       throw new BadRequestError("Create new Product error");
     }
     return newProduct;
+  }
+  async updateProduct(productId) {
+    /**
+     * 1. remove attr has null undefined
+     * 2. check update where
+     */
+
+    //1. remove attr has null undefined
+    const objectParams = removeUndefinedObject(this);
+    //2. check update where
+    if (objectParams.product_attributes) {
+      // update child
+      await updateProductById({
+        productId,
+        bodyUpdate: updateNestedObjectParser(objectParams.product_attributes),
+        model: furniture,
+      });
+    }
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objectParams)
+    );
+    return updateProduct;
   }
 }
 // register product types
